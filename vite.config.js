@@ -20,5 +20,6 @@ export default ({ mode }) => {
         '@': resolve(__dirname),
       },
     },
+    base: process.env.VITE_BASE_URL,
   })
 }
