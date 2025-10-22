@@ -7,15 +7,48 @@ import StorageDisplay from '@/src/app/features/demo/components/StorageDisplay'
 import ItemDisplay from '@/src/app/features/demo/components/ItemDisplay'
 import { IoClose, IoWarning } from 'react-icons/io5'
 
+/**
+ * Composant de démonstration principal
+ *
+ * Page de démonstration présentant les fonctionnalités développées :
+ * - useStorage : Persistance des sélections dans le localStorage
+ * - ModalProvider/useModal : Affichage de modales et dialogues
+ * - AutoFilterDropdown : Sélection avec filtrage automatique d'utilisateurs et posts
+ * - useFakeApi : Récupération de données depuis une API REST
+ *
+ * Les utilisateurs et posts sélectionnés sont automatiquement sauvegardés
+ * et peuvent être visualisés via différents types de modales.
+ */
 export default function Demo() {
+    /**
+     * Fonctions pour ouvrir des modales
+     */
     const { openModal } = useModal()
-    
+
+    /**
+     * Gestion de l'utilisateur sélectionné avec persistance localStorage
+     */
     const [user, setUser, clearUser] = useStorage('user', null)
+
+    /**
+     * Gestion du post sélectionné avec persistance localStorage
+     */
     const [post, setPost, clearPost] = useStorage('post', null)
 
+    /**
+     * Récupération de la liste des utilisateurs depuis l'API
+     */
     const [users, getUsers] = useFakeApi('users')
+
+    /**
+     * Récupération de la liste des posts depuis l'API
+     */
     const [posts, getPosts] = useFakeApi('posts')
 
+    /**
+     * Ouvre une modale classique avec bouton de fermeture
+     * Le fond sombre ne ferme pas la modale au clic en dehors
+     */
     function handleOpenStorageModal() {
         openModal({
             header: '[Modal] Etat du localStorage',
@@ -30,6 +63,10 @@ export default function Demo() {
         })
     }
 
+    /**
+     * Ouvre une modale avec fermeture au clic sur l'arrière-plan
+     * Pas de bouton de fermeture visible
+     */
     function handleOpenStorageModalWithCloseOnBackdropClick() {
         openModal({
             header: '[Modal + backdrop click] Etat du localStorage',
@@ -44,6 +81,10 @@ export default function Demo() {
         })
     }
 
+    /**
+     * Ouvre une fenêtre de dialogue (sans arrière-plan bloquant)
+     * Permet d'interagir avec la page en arrière-plan
+     */
     function handleOpenStorageDialog() {
         openModal({
             isModal: false,
@@ -58,6 +99,9 @@ export default function Demo() {
         })
     }
 
+    /**
+     * Charge les données des utilisateurs et posts au montage du composant
+     */
     useEffect(() => {
         void getUsers()
         void getPosts()

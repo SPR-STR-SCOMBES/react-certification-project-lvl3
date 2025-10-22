@@ -1,7 +1,29 @@
 import { useStorage } from '@/src/app/shared/utils/storage/useStorage'
 
+/**
+ * Composant d'affichage du contenu du localStorage
+ *
+ * Affiche sous forme de cartes les valeurs actuellement stockées dans le localStorage
+ * pour les clés 'user' et 'post'. Chaque carte montre soit les détails formatés
+ * de l'objet, soit un message indiquant qu'aucune valeur n'est sélectionnée.
+ *
+ * Utilisé dans la modale pour visualiser l'état du localStorage.
+ *
+ * @param {Object} props
+ * @param {string} [props.className] - Classes CSS additionnelles
+ *
+ * @example
+ * <StorageDisplay />
+ */
 export default function StorageDisplay({ className }) {
+    /**
+     * Récupère l'utilisateur stocké dans le localStorage
+     */
     const [user] = useStorage('user', null)
+
+    /**
+     * Récupère le post stocké dans le localStorage
+     */
     const [post] = useStorage('post', null)
 
     return (

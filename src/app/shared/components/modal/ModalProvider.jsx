@@ -2,7 +2,25 @@ import { isValidElement, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import ModalContext from '@/src/app/shared/components/modal/ModalContext'
 
+/**
+ * Provider pour la gestion des modales de l'application
+ *
+ * Ce composant doit envelopper l'application entière pour permettre à tous
+ * les composants enfants d'utiliser le hook useModal. Il gère l'état de la
+ * modale et fournit les fonctions pour l'ouvrir et la fermer.
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Les composants enfants de l'application
+ *
+ * @example
+ * <ModalProvider>
+ *   <App />
+ * </ModalProvider>
+ */
 export function ModalProvider({ children }) {
+    /**
+     * État initial de la modale avec toutes les options par défaut
+     */
     const initialState = {
         isOpen: false,
         isModal: true,
@@ -13,8 +31,21 @@ export function ModalProvider({ children }) {
         showCloseButton: true,
     }
 
+    /**
+     * État de la modale contenant sa configuration et son contenu
+     */
     const [state, setState] = useState(initialState)
 
+    /**
+     * Ouvre la modale avec les options fournies
+     * @param {Object} options - Configuration de la modale
+     * @param {boolean} [options.isModal=true] - Si false, pas de fond sombre derrière
+     * @param {string|React.ReactNode} [options.header] - Contenu du header
+     * @param {string|React.ReactNode} [options.body] - Contenu principal
+     * @param {string|React.ReactNode} [options.footer] - Contenu du footer
+     * @param {boolean} [options.closeOnBackdropClick=true] - Fermer en cliquant sur le fond
+     * @param {boolean} [options.showCloseButton=true] - Afficher le bouton de fermeture
+     */
     function openModal(options) {
         setState(prevState => ({
             isOpen: true,
@@ -27,6 +58,9 @@ export function ModalProvider({ children }) {
         }))
     }
 
+    /**
+     * Ferme la modale actuellement ouverte
+     */
     function closeModal() {
         setState(prevState => ({
             ...prevState,
@@ -34,6 +68,11 @@ export function ModalProvider({ children }) {
         }))
     }
 
+    /**
+     * Gère le clic sur l'arrière-plan de la modale
+     * Ferme la modale si l'option closeOnBackdropClick est activée
+     * @param {MouseEvent} e - L'événement de clic
+     */
     function handleBackdropClick(e) {
         if (state?.isModal && state?.closeOnBackdropClick && e?.target === e?.currentTarget) {
             closeModal()
