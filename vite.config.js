@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default ({ mode }) => {
   process.env = {
     ...process.env,
-    ...loadEnv(mode, '../', '')
+    ...loadEnv(mode, process.cwd(), '')
   }
 
   return defineConfig({
